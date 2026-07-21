@@ -136,10 +136,7 @@ export default function Hero() {
         ref={content}
         className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[100rem] flex-col justify-between px-6 py-16 md:px-12 md:py-20"
       >
-        <header className="flex items-center justify-between">
-          <span data-fade className="eyebrow">
-            A.S.H. Finiture Contract
-          </span>
+        <header className="flex items-center justify-end">
           <span data-fade className="eyebrow hidden sm:block">
             Marche · Italia
           </span>
@@ -190,9 +187,6 @@ export default function Hero() {
               <span className="absolute inset-0 block h-full w-full origin-top animate-[scrollcue_2.2s_ease-in-out_infinite] bg-gold" />
             </span>
           </a>
-          <span data-fade className="eyebrow hidden max-w-[16ch] text-right sm:block">
-            Via Adigrat 3/A · 62032
-          </span>
         </footer>
       </div>
     </section>
