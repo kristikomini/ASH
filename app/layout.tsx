@@ -1,14 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
-import SmoothScroll from "@/components/SmoothScroll";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import ScrollProgress from "@/components/ScrollProgress";
 import "./globals.css";
 
 /*
-  Fonts injected at the root as CSS variables → zero cumulative layout shift,
-  so GSAP/ScrollTrigger measure stable positions on first paint.
+  Root layout: fonts + globals only. The public site and the dashboard each own
+  their shell via route groups — app/(marketing) and app/dashboard.
 */
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -60,29 +56,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="it"
       className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
     >
       <body className="min-h-dvh bg-charcoal font-sans text-cream">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-gold focus:px-4 focus:py-2 focus:font-sans focus:text-sm focus:text-charcoal"
-        >
-          Salta al contenuto
-        </a>
-        <SmoothScroll>
-          <Nav />
-          <main id="main" tabIndex={-1} className="outline-none">
-            {children}
-          </main>
-          <Footer />
-          <ScrollProgress />
-        </SmoothScroll>
+        {children}
       </body>
     </html>
   );

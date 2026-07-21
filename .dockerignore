@@ -1,0 +1,33 @@
+# Dependencies (reinstalled inside the image)
+node_modules
+.pnp
+.pnp.*
+
+# Build output (regenerated inside the image)
+.next
+out
+build
+
+# Version control / editor
+.git
+.gitignore
+.vscode
+.idea
+
+# Env files — inject secrets via Coolify env vars, don't bake them in
+.env
+.env.*
+
+# Logs & misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.DS_Store
+*.pem
+*.tsbuildinfo
+
+# Docs / meta not needed at runtime
+README.md
+Dockerfile
+.dockerignore
