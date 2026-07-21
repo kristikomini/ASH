@@ -26,7 +26,7 @@
 /* Fonts are injected as CSS variables by next/font in the RootLayout.
    `inline` resolves them at runtime instead of registering a static token. */
 @theme inline {
-  --font-display: var(--font-space-grotesk);
+  --font-display: var(--font-display-src);
   --font-sans: var(--font-inter);
 }
 

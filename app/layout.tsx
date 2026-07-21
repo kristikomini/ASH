@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Cormorant, Inter } from "next/font/google";
 import "./globals.css";
 
 /*
   Root layout: fonts + globals only. The public site and the dashboard each own
   their shell via route groups — app/(marketing) and app/dashboard.
+
+  Display face: Cormorant — an elegant high-contrast serif (Garamond heritage)
+  for that refined, architectural, Italian-luxury feel. Body stays Inter.
 */
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const display = Cormorant({
+  variable: "--font-display-src",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -60,7 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="it"
-      className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
+      className={`${display.variable} ${inter.variable} antialiased`}
     >
       <body className="min-h-dvh bg-charcoal font-sans text-cream">
         {children}
