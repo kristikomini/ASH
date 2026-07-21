@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/*
+  A.S.H. FINITURE CONTRACT — Design System
+  Dark, luxurious, architectural. Deep slate + metallic gold/bronze + warm cream.
+  Tailwind v4 CSS-first tokens (generate utilities: bg-charcoal, text-gold, font-display, ...)
+*/
+
+@theme {
+  /* Surfaces — deep slate / rich charcoal */
+  --color-charcoal: #0c0e12; /* base background */
+  --color-charcoal-2: #101319; /* raised surface */
+  --color-slate: #171b22; /* elevated panel */
+  --color-line: #23282f; /* hairline dividers */
+
+  /* Typography */
+  --color-cream: #ece5d8; /* primary type — off-white/cream */
+  --color-cream-dim: #98958d; /* muted secondary type */
+
+  /* Accent — metallic gold / bronze (the geometric 'A') */
+  --color-gold: #c6a15b;
+  --color-gold-light: #e7cf9b; /* metallic highlight */
+  --color-bronze: #8f6f3f; /* deep bronze shadow */
+}
+
+/* Fonts are injected as CSS variables by next/font in the RootLayout.
+   `inline` resolves them at runtime instead of registering a static token. */
+@theme inline {
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+}
+
+/* ---------------------------------------------------------------- base --- */
+/* In @layer base so Tailwind border and text color utilities (border-gold,
+   focus:border-gold, border-[#c9714e]) win over the default hairline reset. */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-charcoal);
+  }
+}
+
+/* ------------------------------------------------------------- helpers --- */
+
+/* Metallic gold text — brushed-bronze gradient clipped to the glyphs */
+.text-metal {
+  background: linear-gradient(
+    177deg,
+    var(--color-gold-light) 0%,
+    var(--color-gold) 46%,
+    var(--color-bronze) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tight, architectural display tracking for very large headings */
+.tracking-arch {
+  letter-spacing: -0.03em;
+}
+
+/* Uppercase micro-label used for eyebrows / section indices.
+   In @layer components so Tailwind text-* utilities (utilities layer) can
+   override the default colour — e.g. `eyebrow text-gold`. */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-cream-dim);
+  }
+}
+
+/* Procedural film grain (inline SVG turbulence — no network request) */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Scroll cue — gold bar sweeping down a clipped track */
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+  }
+  45% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Gold specular sweep across the logo mark (masked to the glyph) */
+@keyframes logoShine {
+  0% {
+    background-position: -160% 0;
+  }
+  60%,
+  100% {
+    background-position: 260% 0;
+  }
+}
+
+/* ------------------------------------------------------ lenis / scroll --- */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
