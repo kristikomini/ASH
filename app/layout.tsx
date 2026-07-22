@@ -1,19 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant, Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 
 /*
   Root layout: fonts + globals only. The public site and the dashboard each own
   their shell via route groups — app/(marketing) and app/dashboard.
 
-  Display face: Cormorant — an elegant high-contrast serif (Garamond heritage)
-  for that refined, architectural, Italian-luxury feel. Body stays Inter.
+  Display face: Fraunces — a contemporary variable serif with optical sizing
+  (crisp and sharp at display sizes, soft at small) and true italics. More
+  modern-luxury than Cormorant, closer to today's editorial identities.
+  Body stays Inter.
 */
-const display = Cormorant({
+const display = Fraunces({
   variable: "--font-display-src",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"], // true italics for ghost words + CTA accents
+  style: ["normal", "italic"],
+  axes: ["opsz"], // optical size axis — display cuts at hero scale
   display: "swap",
 });
 
@@ -66,7 +68,9 @@ export default function RootLayout({
       lang="it"
       className={`${display.variable} ${inter.variable} antialiased`}
     >
-      <body className="min-h-dvh bg-paper font-sans text-ink">
+      {/* Background comes from the animated --canvas variable (globals.css) —
+          the whole marketing site shares ONE morphing background surface. */}
+      <body className="min-h-dvh font-sans text-ink">
         {children}
       </body>
     </html>

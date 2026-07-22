@@ -11,6 +11,7 @@ export default function Home() {
       <Hero />
       <Services />
       <AmbientBand
+        id="metodo"
         image="/texture-band-light.jpg"
         eyebrow="Il metodo"
         phrase="Dal grezzo al dettaglio, ogni superficie curata a mano."

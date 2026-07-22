@@ -10,7 +10,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-line bg-charcoal px-6 py-14 md:px-12">
+    <footer className="relative border-t border-cream/10 px-6 py-14 md:px-12">
       <div className="mx-auto grid max-w-[100rem] gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
         {/* Brand + slogan */}
         <div>
@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-12 flex max-w-[100rem] flex-col gap-2 border-t border-line pt-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto mt-12 flex max-w-[100rem] flex-col gap-2 border-t border-cream/10 pt-6 md:flex-row md:items-center md:justify-between">
         <p className="text-xs text-cream-dim/60">
           © {year} A.S.H. Finiture Contract di Ahmed Abdelaziz.
         </p>

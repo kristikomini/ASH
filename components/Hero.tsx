@@ -95,10 +95,7 @@ export default function Hero() {
   );
 
   return (
-    <section
-      ref={root}
-      className="relative min-h-dvh overflow-hidden bg-paper"
-    >
+    <section ref={root} className="relative min-h-dvh overflow-hidden">
       {/* Background stack — scaled on scroll for parallax depth */}
       <div ref={bg} className="absolute inset-0 will-change-transform">
         {/* Baked, on-brand plaster image: warm ivory, champagne raking light
@@ -123,10 +120,9 @@ export default function Hero() {
 
         {/* Type-legibility scrim — paper on the left, clearing toward the lit right */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-paper/90 via-paper/45 to-transparent md:via-paper/25" />
-        {/* Nav + section blends (top & bottom fade to paper) */}
+        {/* Nav + section blends (top & bottom fade to paper) —
+            grain comes from the single global pass in CanvasBackdrop */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper via-transparent to-paper/40" />
-        {/* Film grain */}
-        <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
       </div>
 
       {/* Interactive 3D brand emblem in the negative space (desktop) */}

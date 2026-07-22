@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { SERVICES } from "@/lib/services";
 import { scrollToSection } from "@/lib/lenis";
-import { Atmosphere, Aura, GhostWord } from "./Atmosphere";
+import { Atmosphere, GhostWord } from "./Atmosphere";
 
 /* Soft editorial grade — keeps the interior photos cohesive on warm paper. */
 const PHOTO_FILTER = "brightness(1.02) contrast(1.03) saturate(0.9)";
@@ -51,20 +51,11 @@ export default function Services() {
     <section
       id="servizi"
       ref={root}
-      className="relative overflow-clip bg-paper px-6 py-24 md:px-12 md:py-32"
+      className="relative overflow-clip px-6 py-24 md:px-12 md:py-32"
     >
-      {/* overflow-clip (not hidden) — keeps the lg:sticky panel working */}
+      {/* overflow-clip (not hidden) — keeps the lg:sticky panel working.
+          No background: the section floats on the shared canvas. */}
       <Atmosphere>
-        <Aura
-          tint="gold"
-          drift="a"
-          className="left-[-14%] top-[-10%] h-[52vw] w-[52vw]"
-        />
-        <Aura
-          tint="olive"
-          drift="b"
-          className="bottom-[-14%] right-[-8%] h-[40vw] w-[40vw]"
-        />
         <GhostWord className="right-[-3%] top-[3%] text-[15vw]">
           Finiture
         </GhostWord>

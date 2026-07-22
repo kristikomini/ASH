@@ -6,10 +6,10 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { SERVICE_NAMES } from "@/lib/services";
 import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/contact";
-import { Atmosphere, Aura, GhostWord } from "./Atmosphere";
+import { Atmosphere, GhostWord } from "./Atmosphere";
 
 const inputClass =
-  "w-full border-0 border-b border-stone bg-transparent py-3 text-ink outline-none transition-colors duration-300 placeholder:text-ink-dim/50 focus:border-gold-deep aria-[invalid=true]:border-terra";
+  "w-full border-0 border-b border-cream/15 bg-transparent py-3 text-cream outline-none transition-colors duration-300 placeholder:text-cream-dim/40 focus:border-gold aria-[invalid=true]:border-terra-soft";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -18,7 +18,7 @@ function SubmitButton() {
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="group inline-flex items-center gap-3 border border-gold-deep/60 px-8 py-4 font-display text-sm uppercase tracking-[0.22em] text-gold-deep transition-colors duration-300 hover:bg-gold hover:text-charcoal disabled:cursor-not-allowed disabled:border-stone disabled:text-ink-dim disabled:hover:bg-transparent"
+      className="group inline-flex items-center gap-3 rounded-full border border-gold/60 px-9 py-4 font-display text-sm uppercase tracking-[0.22em] text-gold transition-colors duration-300 hover:bg-gold hover:text-charcoal disabled:cursor-not-allowed disabled:border-cream/15 disabled:text-cream-dim disabled:hover:bg-transparent"
     >
       {pending ? "Invio in corso…" : "Invia richiesta"}
       <span
@@ -70,28 +70,22 @@ export default function Contact() {
     <section
       id="contatti"
       ref={root}
-      className="relative overflow-hidden bg-paper px-6 py-24 md:px-12 md:py-32"
+      className="relative overflow-clip px-6 py-24 [color-scheme:dark] md:px-12 md:py-32"
     >
-      {/* Ambient gold wash + grain so the closing section isn't barren */}
+      {/* Ambient gold wash — the section floats on the dark canvas */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(80%_55%_at_12%_0%,rgba(198,161,91,0.16),transparent_58%)]" />
-        <div className="grain absolute inset-0 opacity-[0.05] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[radial-gradient(80%_55%_at_12%_0%,rgba(198,161,91,0.10),transparent_58%)]" />
       </div>
       <Atmosphere>
-        <Aura
-          tint="bronze"
-          drift="b"
-          className="right-[-12%] top-[-8%] h-[46vw] w-[46vw]"
-        />
-        <GhostWord className="bottom-[4%] right-[-4%] text-[16vw]">
+        <GhostWord tone="cream" className="bottom-[4%] right-[-4%] text-[16vw]">
           Insieme
         </GhostWord>
       </Atmosphere>
 
       <div className="relative mx-auto w-full max-w-[100rem]">
         <header data-field className="max-w-4xl">
-          <p className="eyebrow text-gold-deep">Contatti</p>
-          <h2 className="text-metal-deep mt-6 font-display text-[13vw] font-bold leading-[0.85] tracking-arch md:text-[8.5vw]">
+          <p className="eyebrow text-gold">Contatti</p>
+          <h2 className="text-metal mt-6 font-display text-[13vw] font-bold leading-[0.85] tracking-arch md:text-[8.5vw]">
             Costruiamo
             <br />
             insieme.
@@ -103,7 +97,7 @@ export default function Contact() {
           <div className="flex flex-col gap-12">
             <p
               data-field
-              className="max-w-md text-lg leading-relaxed text-ink-dim"
+              className="max-w-md text-lg leading-relaxed text-cream-dim"
             >
               Raccontaci il progetto. Effettuiamo sopralluoghi e preventivi in
               tutta la regione Marche, senza impegno.
@@ -111,32 +105,32 @@ export default function Contact() {
 
             <dl className="grid gap-x-10 gap-y-9 sm:grid-cols-2">
               <div data-field>
-                <dt className="eyebrow mb-3">Studio</dt>
-                <dd className="text-ink">A.S.H. Finiture Contract</dd>
-                <dd className="text-ink-dim">di Ahmed Abdelaziz</dd>
+                <dt className="eyebrow mb-3 text-cream-dim">Studio</dt>
+                <dd className="text-cream">A.S.H. Finiture Contract</dd>
+                <dd className="text-cream-dim">di Ahmed Abdelaziz</dd>
               </div>
               <div data-field>
-                <dt className="eyebrow mb-3">Sede</dt>
-                <dd className="text-ink">Via Adigrat 3/A</dd>
-                <dd className="text-ink-dim">62032 Camerino (MC), Marche</dd>
+                <dt className="eyebrow mb-3 text-cream-dim">Sede</dt>
+                <dd className="text-cream">Via Adigrat 3/A</dd>
+                <dd className="text-cream-dim">62032 Camerino (MC), Marche</dd>
               </div>
               <div data-field>
-                <dt className="eyebrow mb-3">Scrivici</dt>
+                <dt className="eyebrow mb-3 text-cream-dim">Scrivici</dt>
                 <dd>
                   <a
                     href="mailto:ashfiniturecontract@outlook.it"
-                    className="break-all text-ink underline-offset-4 transition-colors hover:text-gold-deep"
+                    className="break-all text-cream underline-offset-4 transition-colors hover:text-gold"
                   >
                     ashfiniturecontract@outlook.it
                   </a>
                 </dd>
               </div>
               <div data-field>
-                <dt className="eyebrow mb-3">Telefono</dt>
+                <dt className="eyebrow mb-3 text-cream-dim">Telefono</dt>
                 <dd>
                   <a
                     href="tel:+393296447797"
-                    className="text-ink transition-colors hover:text-gold-deep"
+                    className="text-cream transition-colors hover:text-gold"
                   >
                     329 644 7797
                   </a>
@@ -144,7 +138,7 @@ export default function Contact() {
                 <dd>
                   <a
                     href="tel:+393383386946"
-                    className="text-ink-dim transition-colors hover:text-gold-deep"
+                    className="text-cream-dim transition-colors hover:text-gold"
                   >
                     338 338 6946
                   </a>
@@ -158,24 +152,24 @@ export default function Contact() {
             {state.ok === true ? (
               <div
                 role="status"
-                className="flex min-h-[18rem] flex-col justify-center border-t border-stone pt-10"
+                className="flex min-h-[18rem] flex-col justify-center border-t border-cream/15 pt-10"
               >
-                <p className="text-metal-deep font-display text-5xl tracking-arch">
+                <p className="text-metal font-display text-5xl tracking-arch">
                   Grazie.
                 </p>
-                <p className="mt-4 max-w-sm text-ink-dim">{state.message}</p>
+                <p className="mt-4 max-w-sm text-cream-dim">{state.message}</p>
               </div>
             ) : (
               <form action={action} noValidate className="w-full">
-                <p className="mb-10 text-xs text-ink-dim">
-                  I campi con <span className="text-gold-deep">*</span> sono
+                <p className="mb-10 text-xs text-cream-dim">
+                  I campi con <span className="text-gold">*</span> sono
                   obbligatori.
                 </p>
 
                 {state.ok === false && state.message && (
                   <p
                     role="alert"
-                    className="mb-8 border-l-2 border-terra pl-4 text-sm text-terra"
+                    className="mb-8 border-l-2 border-terra-soft pl-4 text-sm text-terra-soft"
                   >
                     {state.message}
                   </p>
@@ -184,7 +178,7 @@ export default function Contact() {
                 <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2">
                   {/* Nome */}
                   <div data-field>
-                    <label htmlFor="nome" className="eyebrow">
+                    <label htmlFor="nome" className="eyebrow text-cream-dim">
                       Nome *
                     </label>
                     <div className="relative mt-3">
@@ -200,7 +194,7 @@ export default function Contact() {
                       />
                     </div>
                     {err.nome && (
-                      <p id="nome-err" role="alert" className="mt-2 text-xs text-terra">
+                      <p id="nome-err" role="alert" className="mt-2 text-xs text-terra-soft">
                         {err.nome}
                       </p>
                     )}
@@ -208,7 +202,7 @@ export default function Contact() {
 
                   {/* Email */}
                   <div data-field>
-                    <label htmlFor="email" className="eyebrow">
+                    <label htmlFor="email" className="eyebrow text-cream-dim">
                       Email *
                     </label>
                     <div className="relative mt-3">
@@ -225,7 +219,7 @@ export default function Contact() {
                       />
                     </div>
                     {err.email && (
-                      <p id="email-err" role="alert" className="mt-2 text-xs text-terra">
+                      <p id="email-err" role="alert" className="mt-2 text-xs text-terra-soft">
                         {err.email}
                       </p>
                     )}
@@ -233,7 +227,7 @@ export default function Contact() {
 
                   {/* Telefono */}
                   <div data-field>
-                    <label htmlFor="telefono" className="eyebrow">
+                    <label htmlFor="telefono" className="eyebrow text-cream-dim">
                       Telefono (facoltativo)
                     </label>
                     <div className="relative mt-3">
@@ -249,7 +243,7 @@ export default function Contact() {
                       />
                     </div>
                     {err.telefono && (
-                      <p id="telefono-err" role="alert" className="mt-2 text-xs text-terra">
+                      <p id="telefono-err" role="alert" className="mt-2 text-xs text-terra-soft">
                         {err.telefono}
                       </p>
                     )}
@@ -257,7 +251,7 @@ export default function Contact() {
 
                   {/* Servizio */}
                   <div data-field>
-                    <label htmlFor="servizio" className="eyebrow">
+                    <label htmlFor="servizio" className="eyebrow text-cream-dim">
                       Servizio *
                     </label>
                     <div className="relative mt-3">
@@ -270,24 +264,24 @@ export default function Contact() {
                         aria-describedby={err.servizio ? "servizio-err" : undefined}
                         className={`${inputClass} cursor-pointer appearance-none pr-8`}
                       >
-                        <option value="" className="bg-paper text-ink-dim">
+                        <option value="" className="bg-espresso text-cream-dim">
                           Seleziona…
                         </option>
                         {SERVICE_NAMES.map((s) => (
-                          <option key={s} value={s} className="bg-paper text-ink">
+                          <option key={s} value={s} className="bg-espresso text-cream">
                             {s}
                           </option>
                         ))}
                       </select>
                       <span
                         aria-hidden
-                        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-gold-deep"
+                        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-gold"
                       >
                         ↓
                       </span>
                     </div>
                     {err.servizio && (
-                      <p id="servizio-err" role="alert" className="mt-2 text-xs text-terra">
+                      <p id="servizio-err" role="alert" className="mt-2 text-xs text-terra-soft">
                         {err.servizio}
                       </p>
                     )}
@@ -295,7 +289,7 @@ export default function Contact() {
 
                   {/* Messaggio */}
                   <div data-field className="sm:col-span-2">
-                    <label htmlFor="messaggio" className="eyebrow">
+                    <label htmlFor="messaggio" className="eyebrow text-cream-dim">
                       Messaggio *
                     </label>
                     <div className="relative mt-3">
@@ -311,7 +305,7 @@ export default function Contact() {
                       />
                     </div>
                     {err.messaggio && (
-                      <p id="messaggio-err" role="alert" className="mt-2 text-xs text-terra">
+                      <p id="messaggio-err" role="alert" className="mt-2 text-xs text-terra-soft">
                         {err.messaggio}
                       </p>
                     )}

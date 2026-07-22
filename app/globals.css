@@ -2,9 +2,12 @@
 
 /*
   A.S.H. FINITURE CONTRACT — Design System
-  Light, luxurious, architectural: warm ivory "paper" + metallic gold/bronze +
-  warm near-black ink. The dark set below remains for the dark accents
-  (hero, ambient bands, footer) and for the admin dashboard, which stays dark.
+  ONE continuous canvas (Apple-style): the page background is a single animated
+  CSS variable (--canvas) that travels warm ivory → espresso as you scroll —
+  sections never own a background color, so there are no seams. Fixed chrome
+  (nav, scroll rail) adapts through the --zone-* variables, flipped by
+  [data-zone="dark"] on <html> when the scroll enters the dark finale.
+  The dark token set also serves the admin dashboard, which stays dark.
   Tailwind v4 CSS-first tokens (generate utilities: bg-paper, text-gold, font-display, ...)
 */
 
@@ -37,6 +40,7 @@
 
   /* Feedback */
   --color-terra: #a2492a; /* form errors — warm terracotta, AA on paper */
+  --color-terra-soft: #c9714e; /* form errors on the dark canvas */
 }
 
 /* Fonts are injected as CSS variables by next/font in the RootLayout.
@@ -52,6 +56,24 @@
 @layer base {
   :root {
     color-scheme: light;
+
+    /* The travelling canvas — animated by CanvasBackdrop via GSAP scrub.
+       Runtime-animated, so a plain custom property, NOT a @theme token. */
+    --canvas: #f4f0e7;
+
+    /* Zone-adaptive foreground for FIXED chrome (nav, scroll rail) that
+       outlives any single section. Flipped by [data-zone="dark"]. */
+    --zone-fg: var(--color-ink);
+    --zone-fg-dim: var(--color-ink-dim);
+    --zone-line: var(--color-stone);
+    --zone-accent: var(--color-gold-deep);
+  }
+
+  :root[data-zone="dark"] {
+    --zone-fg: var(--color-cream);
+    --zone-fg-dim: var(--color-cream-dim);
+    --zone-line: rgba(236, 229, 216, 0.16);
+    --zone-accent: var(--color-gold);
   }
 
   /* Dark hairline default — the dashboard (dark) relies on it via bare `border`
@@ -67,7 +89,7 @@
   }
 
   body {
-    background-color: var(--color-paper);
+    background-color: var(--canvas);
     color: var(--color-ink);
     font-family: var(--font-sans), system-ui, sans-serif;
     overflow-x: hidden;
@@ -107,6 +129,16 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* In the dark zone the fixed nav's wordmark flips to the bright metal grade */
+:root[data-zone="dark"] header .text-metal-deep {
+  background-image: linear-gradient(
+    177deg,
+    var(--color-gold-light) 0%,
+    var(--color-gold) 46%,
+    var(--color-bronze) 100%
+  );
 }
 
 /* Tight, architectural display tracking for very large headings */

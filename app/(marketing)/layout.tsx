@@ -2,8 +2,9 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import CanvasBackdrop from "@/components/CanvasBackdrop";
 
-/* Public-site shell: smooth scroll + sticky nav + footer + scroll progress. */
+/* Public-site shell: one morphing canvas + smooth scroll + fixed chrome. */
 export default function MarketingLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -16,6 +17,7 @@ export default function MarketingLayout({
         Salta al contenuto
       </a>
       <SmoothScroll>
+        <CanvasBackdrop />
         <Nav />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}

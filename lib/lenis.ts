@@ -3,7 +3,7 @@
   anchor) can drive smooth scrolling. Falls back to native scroll when Lenis
   was never created (reduced-motion).
 */
-import type Lenis from "@studio-freight/lenis";
+import type Lenis from "lenis";
 
 let _lenis: Lenis | null = null;
 

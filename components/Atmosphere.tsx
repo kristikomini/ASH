@@ -53,14 +53,19 @@ export function Aura({
 
 export function GhostWord({
   children,
+  tone = "ink",
   className = "",
 }: {
   children: React.ReactNode;
+  /* "ink" on the light canvas, "cream" in the dark finale */
+  tone?: "ink" | "cream";
   className?: string;
 }) {
   return (
     <span
-      className={`absolute whitespace-nowrap font-display font-medium italic leading-none text-ink/[0.05] ${className}`}
+      className={`absolute whitespace-nowrap font-display font-medium italic leading-none ${
+        tone === "cream" ? "text-cream/[0.045]" : "text-ink/[0.05]"
+      } ${className}`}
     >
       {children}
     </span>

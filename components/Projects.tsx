@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { PROJECTS, type Project } from "@/lib/projects";
-import { Atmosphere, Aura, GhostWord } from "./Atmosphere";
+import { Atmosphere, GhostWord } from "./Atmosphere";
 
 const ProjectCanvas = dynamic(() => import("./ProjectCanvas"), { ssr: false });
 
@@ -118,19 +118,9 @@ export default function Projects() {
     <section
       id="progetti"
       ref={root}
-      className="relative overflow-clip bg-paper px-6 py-24 md:px-12 md:py-40"
+      className="relative overflow-clip px-6 py-24 md:px-12 md:py-40"
     >
       <Atmosphere>
-        <Aura
-          tint="blush"
-          drift="b"
-          className="left-[-10%] top-[8%] h-[44vw] w-[44vw]"
-        />
-        <Aura
-          tint="gold"
-          drift="a"
-          className="bottom-[-16%] right-[-12%] h-[50vw] w-[50vw]"
-        />
         <GhostWord className="left-[-2%] top-[1%] text-[17vw]">Opere</GhostWord>
       </Atmosphere>
 

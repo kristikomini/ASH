@@ -75,13 +75,16 @@ export default function ScrollProgress() {
       aria-hidden
       className="pointer-events-none fixed bottom-10 right-6 z-40 hidden select-none flex-col items-center gap-3 opacity-0 md:flex md:right-8"
     >
-      <span ref={pct} className="eyebrow text-ink-dim">
+      <span
+        ref={pct}
+        className="eyebrow text-(--zone-fg-dim) transition-colors duration-500"
+      >
         00
       </span>
-      <span className="relative block h-20 w-px bg-stone">
+      <span className="relative block h-20 w-px bg-(--zone-line) transition-colors duration-500">
         <span
           ref={fill}
-          className="absolute inset-x-0 top-0 block h-full bg-gold-deep"
+          className="absolute inset-x-0 top-0 block h-full bg-(--zone-accent) transition-colors duration-500"
         />
       </span>
     </div>

@@ -4,21 +4,25 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 
 /*
-  Full-bleed atmospheric divider between sections: a parallaxing plaster texture
-  (light impasto, baked to dissolve top & bottom toward page paper) with a
-  centred brand line. Decorative but the phrase is read by assistive tech.
+  Typographic interlude on the shared canvas — no background of its own.
+  A large serif statement beside a floating "material specimen": the plaster
+  texture presented as an object (rounded, warm shadow, gentle parallax and
+  counter-rotation) rather than as a section background, so the page surface
+  stays continuous. The phrase is real content, read by assistive tech.
 */
 export default function AmbientBand({
+  id,
   image,
   eyebrow,
   phrase,
 }: {
+  id?: string;
   image: string;
   eyebrow?: string;
   phrase: string;
 }) {
   const root = useRef<HTMLElement>(null);
-  const img = useRef<HTMLImageElement>(null);
+  const specimen = useRef<HTMLDivElement>(null);
   const text = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -33,12 +37,13 @@ export default function AmbientBand({
           const { reduce } = ctx.conditions as { reduce: boolean };
           if (reduce) return;
 
-          // Vertical parallax drift (image is over-scanned so edges never show).
+          // The specimen drifts against the scroll and settles upright.
           gsap.fromTo(
-            img.current,
-            { yPercent: -8 },
+            specimen.current,
+            { yPercent: 10, rotation: 4 },
             {
-              yPercent: 8,
+              yPercent: -10,
+              rotation: -1,
               ease: "none",
               scrollTrigger: {
                 trigger: root.current,
@@ -64,33 +69,35 @@ export default function AmbientBand({
 
   return (
     <section
+      id={id}
       ref={root}
-      className="relative flex h-[60vh] min-h-[400px] items-center justify-center overflow-hidden bg-paper"
+      className="relative overflow-clip px-6 py-24 md:px-12 md:py-40"
     >
-      {/* Parallax texture — 130% tall + offset so the drift never reveals an edge */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          ref={img}
-          src={image}
-          alt=""
-          className="absolute left-0 top-[-15%] h-[130%] w-full object-cover will-change-transform"
-        />
-      </div>
+      <div className="mx-auto grid w-full max-w-[100rem] items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-24">
+        <div ref={text}>
+          {eyebrow && <p className="eyebrow text-gold-deep">{eyebrow}</p>}
+          <p className="mt-5 max-w-2xl font-display text-[9vw] font-medium italic leading-[1.06] tracking-arch text-ink md:mt-6 md:text-[4.2vw]">
+            {phrase}
+          </p>
+        </div>
 
-      {/* Extra blend into the neighbouring sections + grain */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-paper via-transparent to-paper" />
-      <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
-
-      {/* Brand line */}
-      <div
-        ref={text}
-        className="relative z-10 mx-auto max-w-[100rem] px-6 text-center md:px-12"
-      >
-        {eyebrow && <p className="eyebrow text-gold-deep">{eyebrow}</p>}
-        <p className="mx-auto mt-5 max-w-4xl font-display text-[7vw] font-medium leading-[1.08] tracking-arch text-ink md:mt-6 md:text-[3.2vw]">
-          {phrase}
-        </p>
+        {/* Floating material specimen — the craft itself, as an object */}
+        <div
+          ref={specimen}
+          aria-hidden
+          className="relative mx-auto w-full max-w-md will-change-transform lg:max-w-none"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image}
+            alt=""
+            loading="lazy"
+            className="aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_48px_90px_-24px_rgba(60,45,25,0.35)] ring-1 ring-ink/10"
+          />
+          <p className="eyebrow mt-4 text-center">
+            Intonachino · dettaglio di superficie
+          </p>
+        </div>
       </div>
     </section>
   );
