@@ -2,18 +2,30 @@
 
 /*
   A.S.H. FINITURE CONTRACT — Design System
-  Dark, luxurious, architectural. Deep slate + metallic gold/bronze + warm cream.
-  Tailwind v4 CSS-first tokens (generate utilities: bg-charcoal, text-gold, font-display, ...)
+  Light, luxurious, architectural: warm ivory "paper" + metallic gold/bronze +
+  warm near-black ink. The dark set below remains for the dark accents
+  (hero, ambient bands, footer) and for the admin dashboard, which stays dark.
+  Tailwind v4 CSS-first tokens (generate utilities: bg-paper, text-gold, font-display, ...)
 */
 
 @theme {
-  /* Surfaces — deep slate / rich charcoal */
-  --color-charcoal: #0c0e12; /* base background */
+  /* Light surfaces — warm ivory paper (marketing default) */
+  --color-paper: #f4f0e7; /* page background */
+  --color-paper-2: #faf7f0; /* elevated surface */
+  --color-stone: #ddd4c3; /* hairline dividers on light */
+
+  /* Ink — warm near-black type on light (never pure black) */
+  --color-ink: #211d16; /* primary type */
+  --color-ink-dim: #6e6455; /* muted secondary type */
+
+  /* Dark surfaces — deep slate / rich charcoal (hero, bands, footer, dashboard) */
+  --color-charcoal: #0c0e12; /* dark base background */
   --color-charcoal-2: #101319; /* raised surface */
   --color-slate: #171b22; /* elevated panel */
-  --color-line: #23282f; /* hairline dividers */
+  --color-line: #23282f; /* hairline dividers on dark */
+  --color-espresso: #241a10; /* warm dark for photo overlay gradients */
 
-  /* Typography */
+  /* Typography on dark */
   --color-cream: #ece5d8; /* primary type — off-white/cream */
   --color-cream-dim: #98958d; /* muted secondary type */
 
@@ -21,6 +33,10 @@
   --color-gold: #c6a15b;
   --color-gold-light: #e7cf9b; /* metallic highlight */
   --color-bronze: #8f6f3f; /* deep bronze shadow */
+  --color-gold-deep: #7a5e28; /* text-level gold on light (≥4.5:1 on paper) */
+
+  /* Feedback */
+  --color-terra: #a2492a; /* form errors — warm terracotta, AA on paper */
 }
 
 /* Fonts are injected as CSS variables by next/font in the RootLayout.
@@ -35,9 +51,11 @@
    focus:border-gold, border-[#c9714e]) win over the default hairline reset. */
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
+  /* Dark hairline default — the dashboard (dark) relies on it via bare `border`
+     utilities. Light marketing surfaces opt into `border-stone` explicitly. */
   * {
     border-color: var(--color-line);
   }
@@ -49,8 +67,8 @@
   }
 
   body {
-    background-color: var(--color-charcoal);
-    color: var(--color-cream);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans), system-ui, sans-serif;
     overflow-x: hidden;
     overscroll-behavior-y: none;
@@ -64,13 +82,27 @@
 
 /* ------------------------------------------------------------- helpers --- */
 
-/* Metallic gold text — brushed-bronze gradient clipped to the glyphs */
+/* Metallic gold text — brushed-bronze gradient clipped to the glyphs.
+   For DARK surfaces (hero, footer). On light paper use .text-metal-deep. */
 .text-metal {
   background: linear-gradient(
     177deg,
     var(--color-gold-light) 0%,
     var(--color-gold) 46%,
     var(--color-bronze) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Bronze-weighted variant — keeps the metallic feel legible on paper */
+.text-metal-deep {
+  background: linear-gradient(
+    177deg,
+    var(--color-gold) 0%,
+    var(--color-gold-deep) 52%,
+    #55411c 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -92,7 +124,31 @@
     letter-spacing: 0.32em;
     font-size: 0.72rem;
     font-weight: 500;
-    color: var(--color-cream-dim);
+    color: var(--color-ink-dim);
+  }
+}
+
+/* ------------------------------------------------------- atmosphere --- */
+
+/* Aura drift — huge translucent radial-gradient fields floating behind the
+   light sections (transform/opacity only; killed by the reduced-motion
+   media query below). Two patterns so neighbouring blobs never sync. */
+@keyframes aura-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.1);
+  }
+}
+@keyframes aura-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(-5%, 4%, 0) scale(0.94);
   }
 }
 

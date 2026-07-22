@@ -68,7 +68,7 @@ export default function Footer() {
           <a
             href="#top"
             onClick={goTop}
-            className="eyebrow mt-6 inline-block transition-colors hover:text-gold"
+            className="eyebrow mt-6 inline-block text-cream-dim transition-colors hover:text-gold"
           >
             Torna su <span aria-hidden="true">↑</span>
           </a>

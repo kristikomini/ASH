@@ -14,33 +14,34 @@ import { gsap } from "@/lib/gsap";
 */
 // Local same-origin architectural photo (in /public). Loaded non-blockingly and
 // swapped over the procedural default; set to null to keep the procedural texture.
-const REMOTE_TEXTURE: string | null = "/hero.jpg";
+const REMOTE_TEXTURE: string | null = "/hero-light.jpg";
 
-/* On-brand procedural "plaster / rasatura" surface — instant, zero network. */
+/* On-brand procedural "plaster / rasatura" surface — instant, zero network.
+   Light ivory to match the baked hero (this is the pre-swap flash). */
 function makePlasterTexture(): THREE.CanvasTexture {
   const size = 1024;
   const c = document.createElement("canvas");
   c.width = c.height = size;
   const ctx = c.getContext("2d")!;
 
-  // base vertical gradient (charcoal → faintly lifted)
+  // base vertical gradient (bright ivory → page paper)
   const g = ctx.createLinearGradient(0, 0, 0, size);
-  g.addColorStop(0, "#1b1f28");
-  g.addColorStop(0.55, "#13161d");
-  g.addColorStop(1, "#0c0e12");
+  g.addColorStop(0, "#f8f5ee");
+  g.addColorStop(0.55, "#f3efe5");
+  g.addColorStop(1, "#f4f0e7");
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, size, size);
 
-  // soft raking light (top-left) — the "lit wall" highlight
-  const rg = ctx.createRadialGradient(340, 300, 40, 340, 300, 760);
-  rg.addColorStop(0, "rgba(231,207,155,0.20)");
-  rg.addColorStop(1, "rgba(231,207,155,0)");
+  // soft champagne raking light (upper-right) — matches the baked glow
+  const rg = ctx.createRadialGradient(760, 280, 40, 760, 280, 720);
+  rg.addColorStop(0, "rgba(226,194,136,0.30)");
+  rg.addColorStop(1, "rgba(226,194,136,0)");
   ctx.fillStyle = rg;
   ctx.fillRect(0, 0, size, size);
 
-  // subtle trowel streaks
+  // subtle trowel streaks — bronze shadows on the light surface
   ctx.globalAlpha = 0.05;
-  ctx.strokeStyle = "#e7cf9b";
+  ctx.strokeStyle = "#8f6f3f";
   for (let i = 0; i < 22; i++) {
     ctx.beginPath();
     const y = Math.random() * size;
@@ -55,7 +56,7 @@ function makePlasterTexture(): THREE.CanvasTexture {
   const img = ctx.getImageData(0, 0, size, size);
   const d = img.data;
   for (let i = 0; i < d.length; i += 4) {
-    const n = (Math.random() - 0.5) * 20;
+    const n = (Math.random() - 0.5) * 14;
     d[i] += n;
     d[i + 1] += n;
     d[i + 2] += n;
@@ -78,7 +79,7 @@ const vertexShader = /* glsl */ `
 `;
 
 /*
-  The texture is ALREADY colour-graded + vignetted when baked (public/hero.jpg),
+  The texture is ALREADY colour-graded + vignetted when baked (public/hero-light.jpg),
   so the shader no longer re-grades it (doing so is what crushed the old bright
   photo to black). It now passes the image through and only ADDS life:
     · a slow, drifting warm "raking light" sheen that catches the trowel ridges
@@ -136,18 +137,20 @@ const fragmentShader = /* glsl */ `
     float lum = dot(col, vec3(0.299, 0.587, 0.114));
 
     // Drifting raking light from the upper-right — reinforces the baked glow.
+    // Intensities are LOW: the surface is bright ivory and additive gold
+    // clips to white quickly.
     float lightPos = uv.x * 0.6 + uv.y * 0.4 + 0.12 * sin(uTime * 0.18 + uv.y * 2.2);
     float band = smoothstep(0.45, 1.05, lightPos);
     float sheen = smoothstep(0.30, 0.95, lum + band * 0.35);
-    col += uGold * sheen * 0.12;
+    col += uGold * sheen * band * 0.055;
 
-    // Warm cursor bloom (only where the pointer is), lifting the plaster texture.
-    col += uGoldLight * infl * 0.16;
-    col *= 1.0 + infl * 0.12;
+    // Warm cursor bloom (only where the pointer is) — a soft champagne lift.
+    col += uGoldLight * infl * 0.07;
+    col *= 1.0 + infl * 0.04;
 
-    // Gentle extra vignette (the baked image already carries most of it).
+    // Whisper of a vignette (the baked image already carries most of it).
     float vig = smoothstep(1.3, 0.42, distance(uv, vec2(0.56, 0.44)));
-    col *= mix(1.0, vig, 0.22);
+    col *= mix(1.0, vig, 0.08);
 
     // First-paint bottom-up wipe.
     float reveal = smoothstep(0.0, 1.0, uProgress);

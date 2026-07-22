@@ -13,7 +13,7 @@ export default function DashboardShell({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-dvh bg-charcoal lg:grid lg:grid-cols-[16rem_1fr]">
+    <div className="min-h-dvh bg-charcoal text-cream [color-scheme:dark] lg:grid lg:grid-cols-[16rem_1fr]">
       {open && (
         <div
           className="fixed inset-0 z-40 bg-charcoal/60 backdrop-blur-sm lg:hidden"

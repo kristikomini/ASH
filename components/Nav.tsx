@@ -158,7 +158,7 @@ export default function Nav() {
     <header ref={header} className="fixed inset-x-0 top-0 z-50">
       <div
         data-bar
-        className="absolute inset-0 border-b border-line bg-charcoal/70 opacity-0 backdrop-blur-md"
+        className="absolute inset-0 border-b border-stone bg-paper/85 opacity-0 backdrop-blur-md"
       />
 
       <nav className="relative mx-auto flex h-16 max-w-[100rem] items-center justify-between px-6 md:h-20 md:px-12">
@@ -175,7 +175,7 @@ export default function Nav() {
             aria-hidden
             className="h-7 w-auto transition-transform duration-500 group-hover:rotate-[-6deg] md:h-8"
           />
-          <span className="text-metal font-display text-lg font-bold tracking-arch">
+          <span className="text-metal-deep font-display text-lg font-bold tracking-arch">
             A.S.H.
           </span>
         </a>
@@ -187,14 +187,14 @@ export default function Nav() {
               href={target}
               onClick={(e) => go(e, target)}
               aria-current={active === target ? "true" : undefined}
-              className={`eyebrow relative transition-colors duration-300 hover:text-cream ${
-                active === target ? "text-gold" : "text-cream-dim"
+              className={`eyebrow relative transition-colors duration-300 hover:text-ink ${
+                active === target ? "text-gold-deep" : "text-ink-dim"
               }`}
             >
               {label}
               <span
                 aria-hidden
-                className={`absolute -bottom-1 left-0 h-px w-full origin-left bg-gold transition-transform duration-300 ${
+                className={`absolute -bottom-1 left-0 h-px w-full origin-left bg-gold-deep transition-transform duration-300 ${
                   active === target ? "scale-x-100" : "scale-x-0"
                 }`}
               />
@@ -203,7 +203,7 @@ export default function Nav() {
           <a
             href="#contatti"
             onClick={(e) => go(e, "#contatti")}
-            className="eyebrow border border-gold/60 px-5 py-2 text-gold transition-colors duration-300 hover:bg-gold hover:text-charcoal"
+            className="eyebrow border border-gold-deep/60 px-5 py-2 text-gold-deep transition-colors duration-300 hover:bg-gold hover:text-charcoal"
           >
             Preventivo
           </a>
@@ -219,12 +219,12 @@ export default function Nav() {
           className="relative z-50 flex h-6 w-7 flex-col items-center justify-center gap-1.5 md:hidden"
         >
           <span
-            className={`h-px w-6 bg-cream transition-transform duration-300 ${
+            className={`h-px w-6 bg-ink transition-transform duration-300 ${
               open ? "translate-y-[3.5px] rotate-45" : ""
             }`}
           />
           <span
-            className={`h-px w-6 bg-cream transition-transform duration-300 ${
+            className={`h-px w-6 bg-ink transition-transform duration-300 ${
               open ? "-translate-y-[3.5px] -rotate-45" : ""
             }`}
           />
@@ -244,7 +244,7 @@ export default function Nav() {
         aria-modal="true"
         aria-label="Menu di navigazione"
         {...(open ? {} : { inert: true })}
-        className={`fixed inset-0 z-40 flex flex-col justify-center gap-1 bg-charcoal px-6 transition-opacity duration-500 md:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col justify-center gap-1 bg-paper px-6 transition-opacity duration-500 md:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
@@ -255,7 +255,7 @@ export default function Nav() {
               data-mlink
               href={target}
               onClick={(e) => go(e, target)}
-              className="text-metal block font-display text-[13vw] font-bold leading-none tracking-arch"
+              className="text-metal-deep block font-display text-[13vw] font-bold leading-none tracking-arch"
             >
               {label}
             </a>
@@ -265,7 +265,7 @@ export default function Nav() {
           data-mlink
           href="#contatti"
           onClick={(e) => go(e, "#contatti")}
-          className="eyebrow mt-8 block text-gold"
+          className="eyebrow mt-8 block text-gold-deep"
         >
           Richiedi un preventivo <span aria-hidden="true">→</span>
         </a>

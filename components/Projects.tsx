@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { PROJECTS, type Project } from "@/lib/projects";
+import { Atmosphere, Aura, GhostWord } from "./Atmosphere";
 
 const ProjectCanvas = dynamic(() => import("./ProjectCanvas"), { ssr: false });
 
@@ -16,7 +17,7 @@ function ProjectCard({
 }) {
   return (
     <li data-card className="group relative">
-      <div className="relative aspect-[3/4] overflow-hidden bg-slate">
+      <div className="relative aspect-[3/4] overflow-hidden bg-stone">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={project.img}
@@ -27,6 +28,8 @@ function ProjectCard({
 
         {enable3d && <ProjectCanvas url={project.img} />}
 
+        {/* Soft espresso vignette so the gold index/CTA read on any photo */}
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-espresso/35 via-transparent to-espresso/25" />
         <div className="pointer-events-none absolute inset-0 z-10 bg-gold/0 transition-colors duration-500 group-hover:bg-gold/10" />
         <span className="eyebrow absolute left-4 top-4 z-10 text-gold">
           {project.n}
@@ -36,16 +39,16 @@ function ProjectCard({
         </span>
       </div>
 
-      <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-line pt-4">
-        <h3 className="font-display text-2xl font-medium tracking-arch text-cream md:text-3xl">
+      <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-stone pt-4">
+        <h3 className="font-display text-2xl font-medium tracking-arch text-ink md:text-3xl">
           {project.title}
         </h3>
         <span className="eyebrow shrink-0">{project.year}</span>
       </div>
-      <p className="eyebrow mt-2 text-cream-dim">
+      <p className="eyebrow mt-2 text-ink-dim">
         {project.category} · {project.location}
       </p>
-      <p className="mt-3 max-w-[38ch] text-sm leading-relaxed text-cream-dim">
+      <p className="mt-3 max-w-[38ch] text-sm leading-relaxed text-ink-dim">
         {project.desc}
       </p>
     </li>
@@ -115,11 +118,25 @@ export default function Projects() {
     <section
       id="progetti"
       ref={root}
-      className="relative bg-charcoal px-6 py-24 md:px-12 md:py-40"
+      className="relative overflow-clip bg-paper px-6 py-24 md:px-12 md:py-40"
     >
-      <div className="mx-auto w-full max-w-[100rem]">
+      <Atmosphere>
+        <Aura
+          tint="blush"
+          drift="b"
+          className="left-[-10%] top-[8%] h-[44vw] w-[44vw]"
+        />
+        <Aura
+          tint="gold"
+          drift="a"
+          className="bottom-[-16%] right-[-12%] h-[50vw] w-[50vw]"
+        />
+        <GhostWord className="left-[-2%] top-[1%] text-[17vw]">Opere</GhostWord>
+      </Atmosphere>
+
+      <div className="relative mx-auto w-full max-w-[100rem]">
         <header className="mb-12 flex items-baseline justify-between md:mb-20">
-          <p className="eyebrow text-gold">Progetti selezionati</p>
+          <p className="eyebrow text-gold-deep">Progetti selezionati</p>
           <p className="eyebrow">
             {String(PROJECTS.length).padStart(2, "0")} — Realizzazioni
           </p>

@@ -97,20 +97,21 @@ export default function Hero() {
   return (
     <section
       ref={root}
-      className="relative min-h-dvh overflow-hidden bg-charcoal"
+      className="relative min-h-dvh overflow-hidden bg-paper"
     >
       {/* Background stack — scaled on scroll for parallax depth */}
       <div ref={bg} className="absolute inset-0 will-change-transform">
-        {/* Baked, on-brand plaster image: dark charcoal, warm raking light upper-right,
-            dissolving to black under the headline. Visible on ALL devices — this is
-            what mobile / reduced-motion / no-WebGL users see. */}
+        {/* Baked, on-brand plaster image: warm ivory, champagne raking light
+            upper-right (behind the emblem), dissolving into page paper at the
+            bottom. Visible on ALL devices — this is what mobile /
+            reduced-motion / no-WebGL users see. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/hero.jpg"
+          src="/hero-light.jpg"
           alt=""
           aria-hidden="true"
           fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-[64%_28%]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
 
         {/* Live WebGL enhancement (desktop, no reduced motion): drifting light + cursor bloom */}
@@ -120,12 +121,12 @@ export default function Hero() {
           </div>
         )}
 
-        {/* Type-legibility scrim — charcoal on the left, clearing toward the lit right */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/60 to-transparent md:via-charcoal/35" />
-        {/* Nav + section blends (top & bottom fade to charcoal) */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-charcoal/40" />
+        {/* Type-legibility scrim — paper on the left, clearing toward the lit right */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-paper/90 via-paper/45 to-transparent md:via-paper/25" />
+        {/* Nav + section blends (top & bottom fade to paper) */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper via-transparent to-paper/40" />
         {/* Film grain */}
-        <div className="grain pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" />
+        <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
       </div>
 
       {/* Interactive 3D brand emblem in the negative space (desktop) */}
@@ -143,7 +144,7 @@ export default function Hero() {
         </header>
 
         <div>
-          <p data-fade className="eyebrow mb-6 text-gold md:mb-8">
+          <p data-fade className="eyebrow mb-6 text-gold-deep md:mb-8">
             Specialisti in finiture edili
           </p>
 
@@ -151,7 +152,7 @@ export default function Hero() {
             <span className="block overflow-hidden">
               <span
                 data-line
-                className="text-metal block text-[26vw] leading-[0.8] md:text-[19vw]"
+                className="text-metal-deep block text-[26vw] leading-[0.8] md:text-[19vw]"
               >
                 A.S.H.
               </span>
@@ -159,7 +160,7 @@ export default function Hero() {
             <span className="mt-2 block overflow-hidden md:mt-4">
               <span
                 data-line
-                className="block text-[7.6vw] font-medium leading-[0.95] text-cream [letter-spacing:0.02em] md:text-[5.4vw]"
+                className="block text-[7.6vw] font-medium leading-[0.95] text-ink [letter-spacing:0.02em] md:text-[5.4vw]"
               >
                 FINITURE CONTRACT
               </span>
@@ -168,7 +169,7 @@ export default function Hero() {
 
           <p
             data-fade
-            className="mt-8 max-w-xl text-base leading-relaxed text-cream-dim md:mt-10 md:text-lg"
+            className="mt-8 max-w-xl text-base leading-relaxed text-ink-dim md:mt-10 md:text-lg"
           >
             Ricostruzioni su misura e finiture d&apos;interni di alta gamma.
             Superfici impeccabili, precisione millimetrica — di Ahmed
@@ -180,11 +181,11 @@ export default function Hero() {
           <a
             data-fade
             href="#servizi"
-            className="group inline-flex items-center gap-4 text-cream-dim transition-colors hover:text-cream"
+            className="group inline-flex items-center gap-4 text-ink-dim transition-colors hover:text-ink"
           >
             <span className="eyebrow">Scopri i servizi</span>
-            <span className="relative block h-10 w-px overflow-hidden bg-line">
-              <span className="absolute inset-0 block h-full w-full origin-top animate-[scrollcue_2.2s_ease-in-out_infinite] bg-gold" />
+            <span className="relative block h-10 w-px overflow-hidden bg-stone">
+              <span className="absolute inset-0 block h-full w-full origin-top animate-[scrollcue_2.2s_ease-in-out_infinite] bg-gold-deep" />
             </span>
           </a>
         </footer>

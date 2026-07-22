@@ -4,9 +4,10 @@ import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { SERVICES } from "@/lib/services";
 import { scrollToSection } from "@/lib/lenis";
+import { Atmosphere, Aura, GhostWord } from "./Atmosphere";
 
-/* Cohesive dark grade so the (brighter) interior photos sit in the dark theme. */
-const PHOTO_FILTER = "brightness(0.72) contrast(1.08) saturate(0.82)";
+/* Soft editorial grade — keeps the interior photos cohesive on warm paper. */
+const PHOTO_FILTER = "brightness(1.02) contrast(1.03) saturate(0.9)";
 
 export default function Services() {
   const root = useRef<HTMLElement>(null);
@@ -50,14 +51,31 @@ export default function Services() {
     <section
       id="servizi"
       ref={root}
-      className="relative bg-charcoal px-6 py-24 md:px-12 md:py-32"
+      className="relative overflow-clip bg-paper px-6 py-24 md:px-12 md:py-32"
     >
-      <div className="mx-auto w-full max-w-[100rem]">
+      {/* overflow-clip (not hidden) — keeps the lg:sticky panel working */}
+      <Atmosphere>
+        <Aura
+          tint="gold"
+          drift="a"
+          className="left-[-14%] top-[-10%] h-[52vw] w-[52vw]"
+        />
+        <Aura
+          tint="olive"
+          drift="b"
+          className="bottom-[-14%] right-[-8%] h-[40vw] w-[40vw]"
+        />
+        <GhostWord className="right-[-3%] top-[3%] text-[15vw]">
+          Finiture
+        </GhostWord>
+      </Atmosphere>
+
+      <div className="relative mx-auto w-full max-w-[100rem]">
         <header
           data-reveal
           className="mb-10 flex items-baseline justify-between md:mb-16"
         >
-          <p className="eyebrow text-gold">Servizi principali</p>
+          <p className="eyebrow text-gold-deep">Servizi principali</p>
           <p className="eyebrow">
             {String(SERVICES.length).padStart(2, "0")} — Specialità
           </p>
@@ -76,7 +94,7 @@ export default function Services() {
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
                     aria-label={`${s.name} — richiedi un preventivo`}
-                    className="group relative block border-t border-line py-6 outline-none md:py-7"
+                    className="group relative block border-t border-stone py-6 outline-none md:py-7"
                   >
                     {/* active marker */}
                     <span
@@ -89,7 +107,7 @@ export default function Services() {
                     <div className="flex items-baseline gap-5 transition-transform duration-300 md:gap-8 lg:group-hover:translate-x-3">
                       <span
                         className={`font-display text-xs transition-colors md:text-sm ${
-                          on ? "text-gold" : "text-cream-dim"
+                          on ? "text-gold-deep" : "text-ink-dim"
                         }`}
                       >
                         {String(i + 1).padStart(2, "0")}
@@ -97,7 +115,7 @@ export default function Services() {
 
                       <h3
                         className={`font-display font-medium leading-[1.02] tracking-arch transition-colors text-[8.5vw] md:text-[2.9vw] ${
-                          on ? "text-gold" : "text-cream"
+                          on ? "text-gold-deep" : "text-ink"
                         }`}
                       >
                         {s.name}
@@ -105,22 +123,22 @@ export default function Services() {
 
                       <span
                         aria-hidden
-                        className={`ml-auto hidden shrink-0 self-center whitespace-nowrap text-gold transition-all duration-300 lg:block ${
+                        className={`ml-auto hidden shrink-0 self-center whitespace-nowrap text-gold-deep transition-all duration-300 lg:block ${
                           on
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-3 opacity-0"
                         }`}
                       >
-                        <span className="eyebrow text-gold">Preventivo →</span>
+                        <span className="eyebrow text-gold-deep">Preventivo →</span>
                       </span>
                     </div>
 
-                    <p className="mt-3 max-w-md text-sm leading-relaxed text-cream-dim md:mt-4">
+                    <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-dim md:mt-4">
                       {s.desc}
                     </p>
 
                     {/* Inline image — mobile only (desktop uses the sticky panel) */}
-                    <div className="relative mt-5 aspect-[16/10] overflow-hidden bg-slate lg:hidden">
+                    <div className="relative mt-5 aspect-[16/10] overflow-hidden bg-stone lg:hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={s.img}
@@ -129,19 +147,19 @@ export default function Services() {
                         className="h-full w-full object-cover"
                         style={{ filter: PHOTO_FILTER }}
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent" />
                     </div>
                   </a>
                 </li>
               );
             })}
-            <li aria-hidden className="border-t border-line" />
+            <li aria-hidden className="border-t border-stone" />
           </ul>
 
           {/* ── Sticky crossfade preview — desktop ─────────────────── */}
           <div data-reveal className="hidden lg:block">
             <div className="sticky top-28">
-              <div className="relative aspect-[4/5] overflow-hidden bg-slate">
+              <div className="relative aspect-[4/5] overflow-hidden bg-stone">
                 {SERVICES.map((s, i) => (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
@@ -156,8 +174,9 @@ export default function Services() {
                   />
                 ))}
 
-                {/* grade + gold wash + grain */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/15 to-transparent" />
+                {/* grade + gold wash + grain — the espresso foot keeps the
+                    cream caption legible on any photo */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/15 to-transparent" />
                 <div className="pointer-events-none absolute inset-0 bg-gold/[0.06] mix-blend-overlay" />
                 <div className="grain pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay" />
 

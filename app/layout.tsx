@@ -13,6 +13,7 @@ const display = Cormorant({
   variable: "--font-display-src",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"], // true italics for ghost words + CTA accents
   display: "swap",
 });
 
@@ -53,8 +54,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0e12",
-  colorScheme: "dark",
+  themeColor: "#f4f0e7",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -65,7 +66,7 @@ export default function RootLayout({
       lang="it"
       className={`${display.variable} ${inter.variable} antialiased`}
     >
-      <body className="min-h-dvh bg-charcoal font-sans text-cream">
+      <body className="min-h-dvh bg-paper font-sans text-ink">
         {children}
       </body>
     </html>

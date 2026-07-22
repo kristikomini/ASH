@@ -86,7 +86,7 @@ export default function HeroLogo() {
         <img
           src="/logo-mark.png"
           alt=""
-          className="relative block w-full drop-shadow-[0_34px_60px_rgba(0,0,0,0.55)]"
+          className="relative block w-full drop-shadow-[0_30px_50px_rgba(36,26,16,0.35)]"
         />
 
         {/* gold specular sweep, masked to the mark's shape */}
