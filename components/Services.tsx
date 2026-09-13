@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { SERVICES } from "@/lib/services";
 import { scrollToSection } from "@/lib/lenis";
@@ -11,6 +11,8 @@ const PHOTO_FILTER = "brightness(1.02) contrast(1.03) saturate(0.9)";
 
 export default function Services() {
   const root = useRef<HTMLElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const caption = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
   useGSAP(
@@ -21,9 +23,13 @@ export default function Services() {
         {
           base: "(prefers-reduced-motion: no-preference)",
           reduce: "(prefers-reduced-motion: reduce)",
+          tilt: "(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
         },
         (ctx) => {
-          const { reduce } = ctx.conditions as { reduce: boolean };
+          const { reduce, tilt } = ctx.conditions as {
+            reduce: boolean;
+            tilt: boolean;
+          };
           if (reduce) {
             gsap.set(q("[data-reveal]"), { autoAlpha: 1, y: 0 });
             return;
@@ -36,11 +42,55 @@ export default function Services() {
             ease: "power3.out",
             scrollTrigger: { trigger: root.current, start: "top 72%" },
           });
+
+          // Cursor tilt on the sticky preview — the photo behaves like a held
+          // object (max ~4°, springs back on leave).
+          if (tilt && panel.current) {
+            const el = panel.current;
+            gsap.set(el, { transformPerspective: 900 });
+            const rx = gsap.quickTo(el, "rotationX", {
+              duration: 0.6,
+              ease: "power3",
+            });
+            const ry = gsap.quickTo(el, "rotationY", {
+              duration: 0.6,
+              ease: "power3",
+            });
+            const move = (e: PointerEvent) => {
+              const r = el.getBoundingClientRect();
+              ry((((e.clientX - r.left) / r.width) * 2 - 1) * 4);
+              rx(-(((e.clientY - r.top) / r.height) * 2 - 1) * 3);
+            };
+            const leave = () => {
+              rx(0);
+              ry(0);
+            };
+            el.addEventListener("pointermove", move);
+            el.addEventListener("pointerleave", leave);
+            return () => {
+              el.removeEventListener("pointermove", move);
+              el.removeEventListener("pointerleave", leave);
+            };
+          }
         }
       );
     },
     { scope: root }
   );
+
+  // Caption slides up freshly whenever the highlighted service changes.
+  useEffect(() => {
+    if (!caption.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const tw = gsap.fromTo(
+      caption.current,
+      { y: 14, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" }
+    );
+    return () => {
+      tw.kill();
+    };
+  }, [active]);
 
   const goContact = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -64,9 +114,14 @@ export default function Services() {
       <div className="relative mx-auto w-full max-w-[100rem]">
         <header
           data-reveal
-          className="mb-10 flex items-baseline justify-between md:mb-16"
+          className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-20"
         >
-          <p className="eyebrow text-gold-deep">Servizi principali</p>
+          <div>
+            <p className="eyebrow text-gold-deep">Servizi principali</p>
+            <h2 className="mt-4 font-display text-[clamp(2rem,2.8vw,3rem)] font-medium leading-[1.08] tracking-arch text-ink">
+              Sei specialità, un unico standard.
+            </h2>
+          </div>
           <p className="eyebrow">
             {String(SERVICES.length).padStart(2, "0")} — Specialità
           </p>
@@ -129,7 +184,7 @@ export default function Services() {
                     </p>
 
                     {/* Inline image — mobile only (desktop uses the sticky panel) */}
-                    <div className="relative mt-5 aspect-[16/10] overflow-hidden bg-stone lg:hidden">
+                    <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-xl bg-stone ring-1 ring-ink/10 lg:hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={s.img}
@@ -149,8 +204,14 @@ export default function Services() {
 
           {/* ── Sticky crossfade preview — desktop ─────────────────── */}
           <div data-reveal className="hidden lg:block">
-            <div className="sticky top-28">
-              <div className="relative aspect-[4/5] overflow-hidden bg-stone">
+            <div className="sticky top-32">
+              {/* 4:3 sits close to the photos' native shape — minimal crop.
+                  Rounded + ring + warm shadow: an object held over the canvas,
+                  tilting toward the cursor. */}
+              <div
+                ref={panel}
+                className="relative mx-auto aspect-[4/3] w-full max-w-[34rem] overflow-hidden rounded-2xl bg-stone shadow-[0_44px_88px_-28px_rgba(60,45,25,0.38)] ring-1 ring-ink/10 will-change-transform"
+              >
                 {SERVICES.map((s, i) => (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
@@ -158,8 +219,10 @@ export default function Services() {
                     src={s.img}
                     alt=""
                     aria-hidden={active !== i}
-                    className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[900ms] ease-out ${
-                      active === i ? "scale-100 opacity-100" : "scale-105 opacity-0"
+                    className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1100ms] ease-out ${
+                      active === i
+                        ? "scale-100 opacity-100"
+                        : "scale-[1.07] opacity-0"
                     }`}
                     style={{ filter: PHOTO_FILTER }}
                   />
@@ -167,12 +230,12 @@ export default function Services() {
 
                 {/* grade + gold wash + grain — the espresso foot keeps the
                     cream caption legible on any photo */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/15 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
                 <div className="pointer-events-none absolute inset-0 bg-gold/[0.06] mix-blend-overlay" />
                 <div className="grain pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay" />
 
-                {/* caption */}
-                <div className="absolute inset-x-0 bottom-0 p-8">
+                {/* caption — re-animates on every service change */}
+                <div ref={caption} className="absolute inset-x-0 bottom-0 p-7">
                   <p className="eyebrow text-gold">
                     {String(active + 1).padStart(2, "0")} /{" "}
                     {String(SERVICES.length).padStart(2, "0")}

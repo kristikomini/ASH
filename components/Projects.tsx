@@ -17,7 +17,7 @@ function ProjectCard({
 }) {
   return (
     <li data-card className="group relative">
-      <div className="relative aspect-[3/4] overflow-hidden bg-stone">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-stone ring-1 ring-ink/10">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={project.img}
@@ -125,8 +125,13 @@ export default function Projects() {
       </Atmosphere>
 
       <div className="relative mx-auto w-full max-w-[100rem]">
-        <header className="mb-12 flex items-baseline justify-between md:mb-20">
-          <p className="eyebrow text-gold-deep">Progetti selezionati</p>
+        <header className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-20">
+          <div>
+            <p className="eyebrow text-gold-deep">Progetti selezionati</p>
+            <h2 className="mt-4 font-display text-[clamp(2rem,2.8vw,3rem)] font-medium leading-[1.08] tracking-arch text-ink">
+              Realizzazioni recenti nelle Marche.
+            </h2>
+          </div>
           <p className="eyebrow">
             {String(PROJECTS.length).padStart(2, "0")} — Realizzazioni
           </p>
